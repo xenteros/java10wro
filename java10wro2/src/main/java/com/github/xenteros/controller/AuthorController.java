@@ -21,7 +21,7 @@ public class AuthorController {
     private AddressRepository addressRepository;
 
     @Autowired
-    public AuthorController(AuthorRepository authorRepository, AddressRepository addressRepository, EntityManager em) {
+    public AuthorController(AuthorRepository authorRepository, AddressRepository addressRepository) {
         this.authorRepository = authorRepository;
         this.addressRepository = addressRepository;
     }
