@@ -1,38 +1,37 @@
 package com.github.xenteros.controller;
 
+import com.github.xenteros.dto.AuthorCreateDto;
 import com.github.xenteros.dto.AuthorDto;
-import com.github.xenteros.model.Address;
-import com.github.xenteros.model.Author;
-import com.github.xenteros.repository.AddressRepository;
-import com.github.xenteros.repository.AuthorRepository;
+import com.github.xenteros.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityManager;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/authors")
 public class AuthorController {
 
-    private AuthorRepository authorRepository;
-    private AddressRepository addressRepository;
+    private AuthorService authorService;
 
     @Autowired
-    public AuthorController(AuthorRepository authorRepository, AddressRepository addressRepository) {
-        this.authorRepository = authorRepository;
-        this.addressRepository = addressRepository;
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
     }
 
     @PostMapping
-    public AuthorDto create(@RequestParam String firstName,
-                         @RequestParam String lastName,
-                         @RequestParam Long addressId) {
-        Address address = addressRepository.findOne(addressId);
-        Author author = new Author(firstName, lastName, address);
-        return new AuthorDto(authorRepository.save(author));
+    public AuthorDto create(@RequestBody AuthorCreateDto authorCreateDto) {
+        return authorService.create(authorCreateDto);
+    }
+
+    @GetMapping
+    public List<AuthorDto> findAll(){
+        return authorService.findAll();
+    }
+
+    @DeleteMapping("/{uuid}")
+    public void delete(@PathVariable String uuid) {
+        authorService.delete(uuid);
     }
 
 }

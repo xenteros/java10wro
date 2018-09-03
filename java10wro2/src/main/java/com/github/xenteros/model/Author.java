@@ -44,4 +44,8 @@ public class Author extends BaseEntity {
     public Address getAddress() {
         return address;
     }
+
+    public void removeAddress() {
+        this.address = null;
+    }
 }

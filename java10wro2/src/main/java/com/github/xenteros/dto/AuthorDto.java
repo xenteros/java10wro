@@ -18,6 +18,9 @@ public class AuthorDto {
         this.uuid = that.getUuid();
         this.firstName = that.getFirstName();
         this.lastName = that.getLastName();
+        if (that.getAddress() == null) {
+            return;
+        }
         this.street = that.getAddress().getStreet();
         this.city = that.getAddress().getCity();
         this.state = that.getAddress().getState();

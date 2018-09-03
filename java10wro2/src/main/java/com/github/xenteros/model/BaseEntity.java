@@ -1,5 +1,6 @@
 package com.github.xenteros.model;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -11,6 +12,7 @@ import java.util.UUID;
 abstract class BaseEntity {
 
 
+    @Column(unique = true)
     private final String uuid = UUID.randomUUID().toString();
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

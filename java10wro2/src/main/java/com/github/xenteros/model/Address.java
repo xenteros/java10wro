@@ -50,4 +50,7 @@ public class Address extends BaseEntity {
     public Author getAuthor() {
         return author;
     }
+    public void removeAuthor() {
+        this.author = null;
+    }
 }

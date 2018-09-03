@@ -1,33 +1,38 @@
 package com.github.xenteros.controller;
 
-import com.github.xenteros.model.Address;
-import com.github.xenteros.repository.AddressRepository;
+import com.github.xenteros.dto.AddressDto;
+import com.github.xenteros.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/addresses")
 public class AddressController {
 
-    private AddressRepository addressRepository;
+
+    private AddressService addressService;
 
     @Autowired
-    public AddressController(AddressRepository addressRepository) {
-        this.addressRepository = addressRepository;
+    public AddressController(AddressService addressService) {
+        this.addressService = addressService;
     }
 
     @PostMapping
-    public Address createAddress(@RequestParam String street,
-                                 @RequestParam String city,
-                                 @RequestParam String state) {
-        Address address = new Address(street, city, state);
-        return addressRepository.save(address);
+    public AddressDto createAddress(@RequestParam String street,
+                                    @RequestParam String city,
+                                    @RequestParam String state) {
+        return addressService.create(street, city, state);
     }
 
     @GetMapping
-    public Set<Address> findAll() {
-        return addressRepository.findAllBy();
+    public List<AddressDto> findAll() {
+        return addressService.findAll();
+    }
+
+    @DeleteMapping("/{uuid}")
+    public void delete(@PathVariable String uuid) {
+        addressService.deleteByUuid(uuid);
     }
 }
