@@ -1,6 +1,11 @@
 package com.github.xenteros.dto;
 
 import com.github.xenteros.model.Author;
+import com.github.xenteros.model.Book;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AuthorDto {
 
@@ -10,6 +15,7 @@ public class AuthorDto {
     private String street;
     private String city;
     private String state;
+    private List<String> books;
 
     public AuthorDto() {
     }
@@ -18,6 +24,10 @@ public class AuthorDto {
         this.uuid = that.getUuid();
         this.firstName = that.getFirstName();
         this.lastName = that.getLastName();
+        this.books = that.getBooks().stream()
+                .map(Book::getTitle)
+                .sorted(Comparator.naturalOrder())
+                .collect(Collectors.toList());
         if (that.getAddress() == null) {
             return;
         }
@@ -60,5 +70,9 @@ public class AuthorDto {
 
     public String getState() {
         return state;
+    }
+
+    public List<String> getBooks() {
+        return books;
     }
 }

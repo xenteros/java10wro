@@ -9,4 +9,5 @@ public interface AuthorRepository extends CrudRepository<Author, Long> {
 
     Set<Author> findAll();
     void deleteByUuid(String uuid);
+    Author findOneByUuid(String uuid);
 }

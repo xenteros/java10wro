@@ -1,6 +1,8 @@
 package com.github.xenteros.model;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Author extends BaseEntity {
@@ -12,6 +14,8 @@ public class Author extends BaseEntity {
     private String lastName;
     @OneToOne
     private Address address;
+    @OneToMany(mappedBy = "author")
+    private Set<Book> books = new HashSet<>();
 
     public Author() {
     }
@@ -47,5 +51,9 @@ public class Author extends BaseEntity {
 
     public void removeAddress() {
         this.address = null;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
     }
 }
