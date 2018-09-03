@@ -10,5 +10,6 @@ import java.util.Set;
 public interface AddressRepository extends CrudRepository<Address, Long> {
 
     Set<Address> findAllBy();
+    void deleteByUuid(String uuid);
     Set<Address> findAllByCityAndState(String city, String state);
 }
