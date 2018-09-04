@@ -1,44 +1,32 @@
 package com.github.xenteros.controller;
 
 import com.github.xenteros.dto.BookDto;
-import com.github.xenteros.model.Author;
-import com.github.xenteros.model.Book;
-import com.github.xenteros.repository.AuthorRepository;
-import com.github.xenteros.repository.BookRepository;
+import com.github.xenteros.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
 
-    private BookRepository bookRepository;
-    private AuthorRepository authorRepository;
+    private BookService bookService;
+
     @Autowired
-    public BookController(BookRepository bookRepository, AuthorRepository authorRepository) {
-        this.bookRepository = bookRepository;
-        this.authorRepository = authorRepository;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     @GetMapping
-    public List<BookDto> findAll() {
-        return bookRepository.findAll()
-                .stream()
-                .map(BookDto::new)
-                .collect(Collectors.toList());
+    public List<BookDto> findAll(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "5") int pageSize) {
+        return bookService.findAll(page, pageSize);
     }
 
     @PostMapping
-    public BookDto create(String title, String authorUuid) {
-        Author author = authorRepository.findOneByUuid(authorUuid);
-        Book book = new Book(title, author);
-        return new BookDto(bookRepository.save(book));
+    public BookDto create(@RequestParam String title, @RequestParam String authorUuid) {
+        return bookService.create(title, authorUuid);
     }
 
 
