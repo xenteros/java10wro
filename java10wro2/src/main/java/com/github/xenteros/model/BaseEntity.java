@@ -9,7 +9,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @MappedSuperclass
-abstract class BaseEntity {
+abstract public class BaseEntity {
 
 
     @Column(unique = true)

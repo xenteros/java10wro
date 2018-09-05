@@ -1,30 +1,26 @@
 package com.github.xenteros.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.HashMap;
-import java.util.Map;
-
 class UserDetailsServiceImpl implements UserDetailsService {
 
-    private Map<String, String> users;
+    private UserRepository userRepository;
 
-    public UserDetailsServiceImpl() {
-        users = new HashMap<>();
-        users.put("user", "password");
-        users.put("admin", "secret");
-        users.put("super-admin", "super-secret");
+    @Autowired
+    public UserDetailsServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        if (!users.containsKey(username)) {
-            throw new UsernameNotFoundException("Username not found");
+        User user = userRepository.findOneByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Not found");
         }
-
-        return new UserDetailsImpl(username, users.get(username));
+        return new UserDetailsImpl(user.getUsername(), user.getPassword());
     }
 }
