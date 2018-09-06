@@ -75,4 +75,32 @@ public class AuthorDto {
     public List<String> getBooks() {
         return books;
     }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setBooks(List<String> books) {
+        this.books = books;
+    }
 }
